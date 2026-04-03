@@ -22,10 +22,7 @@ import {
   baseRevokeTokenKey,
   deletekeys,
   keys,
-  revokeTokenKey,
-  set,
 } from "../../common/services/index.js";
-
 export const shareProfile = async (userId) => {
   const account = await findOne({
     model: UserModel,
@@ -40,12 +37,9 @@ export const shareProfile = async (userId) => {
   }
   return account;
 };
-
 export const profile = async (user) => {
-  // const account = await decodeToken({ token });
   return user;
 };
-
 export const profileImage = async (file, user) => {
   user.profilePicture = file.finalPath;
   await user.save();
@@ -62,10 +56,8 @@ export const logout = async ({ flag }, user, { jti, iat, sub }) => {
     case LogoutEnum.All:
       user.changeCredentialTime = new Date();
       await user.save();
-      // await deletekeys({ model: tokenModel, filter: { userId: user._id } });
       await deletekeys(await keys(baseRevokeTokenKey(sub)));
       break;
-
     default:
       await createRevokeToken({
         userId: sub,
@@ -75,8 +67,6 @@ export const logout = async ({ flag }, user, { jti, iat, sub }) => {
       status = 201;
       break;
   }
-  // user.changeCredentialTime = new Date();
-  // await user.save();
   return status;
 };
 export const rotateToken = async (user, { sub, jti, iat }, issuer) => {
@@ -101,7 +91,6 @@ export const updatePassword = async (
   ) {
     throw ConflictException({ message: "invalid old password" });
   }
-
   for (const hash of user.oldPassword || []) {
     if (await compareHash({ plaintext: password, cipherText: hash })) {
       throw ConflictException({
@@ -124,7 +113,6 @@ export const deleteAccount = async (userId) => {
   if (!user) throw NotFoundException({ message: "User not found" });
   return user;
 };
-
 export const restoreAccount = async (userId) => {
   const user = await findOneAndUpdate({
     model: UserModel,

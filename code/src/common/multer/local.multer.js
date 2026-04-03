@@ -11,7 +11,6 @@ export const localFileUpload = ({
   const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       const fullPath = resolve(`../uploads/${customPath}`);
-
       if (!existsSync(fullPath)) {
         mkdirSync(fullPath, { recursive: true });
       }
@@ -23,7 +22,6 @@ export const localFileUpload = ({
       cb(null, uniqueFileName);
     },
   });
-
   return multer({
     fileFilter: fileFilter(validation),
     storage,

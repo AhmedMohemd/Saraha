@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-
 const messageSchema = new mongoose.Schema(
   {
     content: {
@@ -11,7 +10,6 @@ const messageSchema = new mongoose.Schema(
       },
     },
     attachments: { type: [String] },
-
     receiverId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

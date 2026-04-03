@@ -10,9 +10,7 @@ import { deleteMessage, getMessage, getMessages, sendMessage } from "./message.s
 import * as validators from "./message.validation.js";
 import { TokenTypeEnum } from "../../common/enums/index.js";
 import { authentication, validation } from "../../middleware/index.js";
-
 const router = Router();
-
 router.post(
   "/:receiverId",
   async (req, res, next) => {
@@ -39,14 +37,12 @@ router.post(
         extra: [{ key: "body", path: ["content"], message: "missing content" }],
       });
     }
-
     const message = await sendMessage(
       req.params.receiverId,
       req.body,
       req.files,
       req.user,
     );
-
     return SuccessResponse({ res, status: 201, data: { message } });
   },
 );

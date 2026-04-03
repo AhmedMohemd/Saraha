@@ -3,7 +3,6 @@ import {
   generalValidationFields,
   fileFieldValidation,
 } from "../../common/utils/index.js";
-
 export const sendMessage = {
   params: joi
     .object()
@@ -11,7 +10,6 @@ export const sendMessage = {
       receiverId: generalValidationFields.id.required(),
     })
     .required(),
-
   body: joi.object().keys({
     content: joi.string().min(2).max(10000),
   }),

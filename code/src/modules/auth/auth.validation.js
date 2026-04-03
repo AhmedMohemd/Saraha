@@ -1,6 +1,5 @@
 import joi from "joi";
 import { generalValidationFields } from "../../common/utils/index.js";
-
 export const login = {
   body: joi
     .object()
@@ -10,7 +9,6 @@ export const login = {
     })
     .required(),
 };
-
 export const signup = {
   body: login.body
     .append({
@@ -22,7 +20,6 @@ export const signup = {
     })
     .required(),
 };
-
 export const resendconfirmEmail = {
   body: joi
     .object()
@@ -31,7 +28,6 @@ export const resendconfirmEmail = {
     })
     .required(),
 };
-
 export const confirmEmail = {
   body: resendconfirmEmail.body
     .append({

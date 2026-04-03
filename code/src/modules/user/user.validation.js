@@ -1,7 +1,6 @@
 import joi from "joi";
 import { generalValidationFields } from "../../common/utils/index.js";
 import { fileFieldValidation } from "../../common/utils/index.js";
-
 export const updatePassword = {
   body: joi
     .object()
@@ -16,7 +15,6 @@ export const updatePassword = {
     })
     .required(),
 };
-
 export const shareProfile = {
   params: joi
     .object()
@@ -25,11 +23,9 @@ export const shareProfile = {
     })
     .required(),
 };
-
 export const profileImage = {
   file: generalValidationFields.file(fileFieldValidation.image).required(),
 };
-
 export const profileCoverImage = {
   files: joi
     .array()
@@ -38,7 +34,6 @@ export const profileCoverImage = {
     .max(2)
     .required(),
 };
-
 export const profileAttachments = {
   files: joi
     .object()
@@ -61,7 +56,6 @@ export const profileAttachments = {
     })
     .required(),
 };
-
 export const restoreAccount = {
   params: joi
     .object()
@@ -70,7 +64,6 @@ export const restoreAccount = {
     })
     .required(),
 };
-
 export const deleteAccount = {
   params: joi
     .object()

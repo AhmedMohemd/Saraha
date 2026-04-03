@@ -19,7 +19,6 @@ import {
   fileFieldValidation,
   localFileUpload,
 } from "../../common/multer/index.js";
-
 const router = Router();
 router.get(
   "/",
@@ -53,7 +52,6 @@ router.post(
 router.post(
   "/logout",
   authentication(),
-
   async (req, res, next) => {
     const status = await logout(req.body, req.user, req.decoded);
     return SuccessResponse({ res, status });
@@ -72,28 +70,21 @@ router.patch(
     return SuccessResponse({ res, data: { ...credentionls } });
   },
 );
-
-///////////////////////////////
 router.patch(
   "/profile-image",
   authentication(),
-
   localFileUpload({
     customPath: "users/profile",
     validation: fileFieldValidation.image,
-    // validation: [...fileFieldValidation.image, fileFieldValidation.video[0]],
     maxSize: 5,
   }).single("attachment"),
   validation(validators.profileImage),
-
   async (req, res, next) => {
     console.log("FILE:", req.file);
     const account = await profileImage(req.file, req.user);
     return SuccessResponse({ res, data: { account } });
   },
 );
-//////////////////////////////
-
 router.patch(
   "/profile-cover-image",
   authentication(),
@@ -118,7 +109,6 @@ router.patch(
     return SuccessResponse({ res, data: { account } });
   },
 );
-
 router.patch(
   "/:userId/restore-account",
   authentication(),
@@ -129,7 +119,6 @@ router.patch(
     return SuccessResponse({ res, data: { account } });
   },
 );
-
 router.delete(
   "/:userId",
   authentication(),
@@ -140,5 +129,4 @@ router.delete(
     return SuccessResponse({ res, data: { account } });
   },
 );
-
 export default router;

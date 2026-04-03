@@ -103,11 +103,8 @@ export const signup = async (inputs) => {
     title: "verify email",
   });
   console.log(s);
-
   return user;
-  
 };
-
 export const confirmEmail = async (inputs) => {
   const { email, otp } = inputs;
   const normalizedEmail = email.toLowerCase();
@@ -122,18 +119,15 @@ export const confirmEmail = async (inputs) => {
   if (!account) {
     throw NotFoundException({ message: "fail to find matching account" });
   }
-
   const hashOtp = await get(
     otpKey({ email: normalizedEmail, subject: EmailEnum.ConfirmEmail }),
   );
   if (!hashOtp) {
     throw NotFoundException({ message: "Expired otp" });
   }
-
   if (!(await compareHash({ plaintext: otp, cipherText: hashOtp }))) {
     throw ConflictException({ message: "Invalid otp" });
   }
-
   account.confirmEmail = new Date();
   await account.save();
   await deletekeys(
@@ -143,7 +137,6 @@ export const confirmEmail = async (inputs) => {
   );
   return;
 };
-
 export const resendconfirmEmail = async (inputs) => {
   const { email } = inputs;
   const normalizedEmail = email.toLowerCase();
@@ -255,7 +248,6 @@ const verifyGoogleAccount = async (idToken) => {
   }
   return payload;
 };
-
 export const loginWithGmail = async (idToken, issuer) => {
   const payload = await verifyGoogleAccount(idToken);
   console.log(payload);
@@ -267,14 +259,11 @@ export const loginWithGmail = async (idToken, issuer) => {
   if (!user) {
     throw NotFoundException({ message: "Not registered account" });
   }
-
   return await createLoginCredentials(user, issuer);
 };
-
 export const signupWithGmail = async (idToken, issuer) => {
   const payload = await verifyGoogleAccount(idToken);
   console.log(payload);
-
   const checkExist = await findOne({
     model: UserModel,
     filter: { email: payload.email },
@@ -285,7 +274,6 @@ export const signupWithGmail = async (idToken, issuer) => {
     }
     return { status: 200, credentials: await loginWithGmail(idToken, issuer) };
   }
-
   const user = await createOne({
     model: UserModel,
     data: {
@@ -297,7 +285,6 @@ export const signupWithGmail = async (idToken, issuer) => {
       provider: ProviderEnum.Google,
     },
   });
-
   return {
     status: 201,
     credentials: await createLoginCredentials(user, issuer),

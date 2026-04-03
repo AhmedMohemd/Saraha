@@ -7,8 +7,6 @@ import cors from "cors";
 import helmet from "helmet";
 import { rateLimit, ipKeyGenerator } from "express-rate-limit";
 import { resolve } from "node:path";
-// import axios from "axios";
-// import geoip from "geoip-lite";
 import morgan from "morgan";
 async function bootstrap() {
   const app = express();
@@ -17,7 +15,6 @@ async function bootstrap() {
     legacyHeaders: false,
     skipFailedRequests: true,
     requestPropertyName: "ratelimit",
-
     handler: (req, res, next) => {
       return res.status(429).json({
         message: "Too many requests",
@@ -37,7 +34,6 @@ async function bootstrap() {
           cb(error);
         }
       },
-
       async decrement(key) {
         if (await redisClient.exists(key)) {
           await redisClient.decr(key);
@@ -45,7 +41,6 @@ async function bootstrap() {
       },
     },
   });
-
   app.set("trust proxy", true);
   app.use(morgan("dev"));
   app.use(cors(), helmet(), limiter, express.json());

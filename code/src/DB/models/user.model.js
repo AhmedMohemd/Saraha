@@ -24,8 +24,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
-      //   lowercase: true,
-      //   trim: true,
     },
     password: {
       type: String,
@@ -41,9 +39,7 @@ const userSchema = new mongoose.Schema(
     },
     gender: {
       type: Number,
-      //   type: String,
       enum: Object.values(GenderEnum),
-      //   required: true,
       default: GenderEnum.Male,
     },
     provider: {
@@ -72,9 +68,7 @@ const userSchema = new mongoose.Schema(
     },
     confirmEmail: {
       type: Date,
-      //   default: false,
     },
-
     changeCredentialTime: {
       type: Date,
     },
