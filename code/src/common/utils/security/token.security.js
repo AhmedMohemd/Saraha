@@ -146,9 +146,9 @@ export const decodeToken = async ({
   return { user, decoded };
 };
 export const createRevokeToken = async (decoded) => {
-  await set(
-    revokeTokenKey({ userId: decoded._id, jti: decoded.jti }),
-    decoded.jti,
-    decoded.iat + Number(REFRESH_TOKEN_EXPIRES_IN),
-  );
+  await set({
+    key: revokeTokenKey({ userId: decoded._id, jti: decoded.jti }),
+    value: decoded.jti,
+    ttl: decoded.iat + Number(REFRESH_TOKEN_EXPIRES_IN),
+  });
 };

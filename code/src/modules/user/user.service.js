@@ -50,6 +50,25 @@ export const profileCoverImage = async (files, user) => {
   await user.save();
   return user;
 };
+// export const logout = async ({ flag }, user, { jti, iat, _id }) => {
+//   let status = 200;
+//   switch (flag) {
+//     case LogoutEnum.All:
+//       user.changeCredentialTime = new Date();
+//       await user.save();
+//       await deletekeys(await keys(baseRevokeTokenKey(_id)));
+//       break;
+//     default:
+//       await createRevokeToken({
+//         userId: _id,
+//         jti,
+//         ttl: iat + REFRESH_TOKEN_EXPIRES_IN,
+//       });
+//       status = 201;
+//       break;
+//   }
+//   return status;
+// };
 export const logout = async ({ flag }, user, { jti, iat, _id }) => {
   let status = 200;
   switch (flag) {
@@ -59,11 +78,7 @@ export const logout = async ({ flag }, user, { jti, iat, _id }) => {
       await deletekeys(await keys(baseRevokeTokenKey(_id)));
       break;
     default:
-      await createRevokeToken({
-        userId: _id,
-        jti,
-        ttl: iat + REFRESH_TOKEN_EXPIRES_IN,
-      });
+      await createRevokeToken({ _id, jti, iat });
       status = 201;
       break;
   }
@@ -73,11 +88,7 @@ export const rotateToken = async (user, { _id, jti, iat }, issuer) => {
   if ((iat + ACCESS_TOKEN_EXPIRES_IN) * 1000 >= Date.now() + 30000) {
     throw ConflictException({ messeage: "current access token still valid" });
   }
-  await createRevokeToken({
-    _id,
-    jti,
-    ttl: iat + REFRESH_TOKEN_EXPIRES_IN,
-  });
+  await createRevokeToken({ _id, jti, iat });
   return createLoginCredentials(user, issuer);
 };
 export const updatePassword = async (

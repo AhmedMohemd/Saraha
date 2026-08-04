@@ -225,7 +225,7 @@ export const login = async (inputs, issuer) => {
   const normalizedEmail = email.toLowerCase();
   const user = await findOne({
     model: UserModel,
-    filter: { email: normalizedEmail },
+    filter: { email: normalizedEmail, confirmEmail: { $exists: true } , provider: ProviderEnum.System },
     options: { lean: true },
   });
   if (!user) {
