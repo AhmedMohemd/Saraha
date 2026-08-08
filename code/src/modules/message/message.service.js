@@ -47,7 +47,8 @@ export const getMessage = async (messageId, user) => {
     model: MessageModel,
     filter: {
       _id: messageId,
-      $or: [{ receiverId: user._id }, { senderId: user._id }],
+      // $or: [{ receiverId: user._id }, { senderId: user._id }],
+      receiverId: user._id,
     },
     select: "-senderId",
   });
@@ -62,7 +63,8 @@ export const getMessages = async (user) => {
   const messages = await find({
     model: MessageModel,
     filter: {
-      $or: [{ receiverId: user._id }, { senderId: user._id }],
+      // $or: [{ receiverId: user._id }, { senderId: user._id }],
+      receiverId: user._id,
     },
     select: "-senderId",
   });

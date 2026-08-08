@@ -278,8 +278,8 @@ export const signupWithGmail = async (idToken, issuer) => {
   const user = await createOne({
     model: UserModel,
     data: {
-      firstName: payload.given_name,
-      lastName: payload.family_name,
+      firstName: payload.given_name || payload.name?.split(" ")[0] || "User Name",
+      lastName: payload.family_name || payload.name?.split(" ")[1] || "family Name",
       email: payload.email,
       profilePicture: payload.picture,
       confirmEmail: new Date(),

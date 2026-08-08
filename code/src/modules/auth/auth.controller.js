@@ -28,9 +28,22 @@ const loginlimiter = rateLimit({
   legacyHeaders: false,
   skipSuccessfulRequests: true,
   requestPropertyName: "ratelimit",
-  handler: (req, res, next) => {
+  handler: async (req, res, next) => {
+  //   return res.status(429).json({
+  //     message: "Too many requests",
+  //   });
+  // },
+  // handler: async (req, res) => {
+    let retryAfter = 120;
+    try {
+      const key = `${ipKeyGenerator(req.ip, 56)}-${req.path}`;
+      const ttl = await redisClient.ttl(key);
+      if (ttl > 0) retryAfter = ttl;
+    } catch (error) {}
+    res.set("Retry-After", String(retryAfter));
     return res.status(429).json({
       message: "Too many requests",
+      retryAfter,
     });
   },
   keyGenerator: (req, res, next) => {
