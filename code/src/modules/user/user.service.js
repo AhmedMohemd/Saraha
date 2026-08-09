@@ -50,25 +50,6 @@ export const profileCoverImage = async (files, user) => {
   await user.save();
   return user;
 };
-// export const logout = async ({ flag }, user, { jti, iat, _id }) => {
-//   let status = 200;
-//   switch (flag) {
-//     case LogoutEnum.All:
-//       user.changeCredentialTime = new Date();
-//       await user.save();
-//       await deletekeys(await keys(baseRevokeTokenKey(_id)));
-//       break;
-//     default:
-//       await createRevokeToken({
-//         userId: _id,
-//         jti,
-//         ttl: iat + REFRESH_TOKEN_EXPIRES_IN,
-//       });
-//       status = 201;
-//       break;
-//   }
-//   return status;
-// };
 export const logout = async ({ flag }, user, { jti, iat, _id }) => {
   let status = 200;
   switch (flag) {

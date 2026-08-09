@@ -17,11 +17,6 @@ async function bootstrap() {
     skipFailedRequests: true,
     requestPropertyName: "ratelimit",
     handler: async (req, res, next) => {
-    //   return res.status(429).json({
-    //     message: "Too many requests",
-    //   });
-    // },
-    // handler: async (req, res) => {
       let retryAfter = 120;
       try {
         const key = `${ipKeyGenerator(req.ip, 56)}-${req.path}`;
